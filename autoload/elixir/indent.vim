@@ -69,6 +69,7 @@ function! elixir#indent#searchpair_back(start, mid, end)
 endfunction
 
 " DRY up searchpairpos calls
+" Returns [line_num, byte_index]
 function! elixir#indent#searchpairpos_back(start, mid, end)
   let line = line('.')
   return searchpairpos(a:start, a:mid, a:end, 'bn', "line('.') == " . line . " || elixir#indent#searchpair_back_skip()")
