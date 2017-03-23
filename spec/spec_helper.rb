@@ -194,6 +194,8 @@ RSpec.configure do |config|
   # Run a single spec by adding the `focus: true` option
   config.filter_run_including focus: true
   config.run_all_when_everything_filtered = true
+
+  config.fail_fast = true
 end
 
 RSpec::Core::ExampleGroup.instance_eval do
