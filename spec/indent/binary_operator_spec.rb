@@ -40,4 +40,15 @@ describe 'Binary operators' do
       Repo.insert!(%Category{name: category})
   end
   EOF
+
+  i <<~EOF
+  defmodule Math do
+    def add_then_divide(a, b) do
+      result =
+        (
+          a + b
+        ) / b
+    end
+  end
+  EOF
 end

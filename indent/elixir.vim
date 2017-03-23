@@ -5,9 +5,7 @@ let b:did_indent = 1
 
 setlocal indentexpr=elixir#indent(v:lnum)
 
-setlocal indentkeys+=0=end,0=catch,0=rescue,0=after,0=else,=->,0},0],0=\|>,0=<>
-" TODO: @jbodah 2017-02-27:
-" setlocal indentkeys+=0)
+setlocal indentkeys+=0=end,0=catch,0=rescue,0=after,0=else,=->,0},0],0=\|>,0=<>,0)
 " TODO: @jbodah 2017-02-27: all operators should cause reindent when typed
 
 function! elixir#indent(lnum)
@@ -32,6 +30,7 @@ function! elixir#indent(lnum)
         \'starts_with_after',
         \'starts_with_close_sq_bracket',
         \'starts_with_close_curly_brace',
+        \'starts_with_close_paren',
         \'starts_with_binary_operator',
         \'inside_cond_block',
         \'inside_case_block',

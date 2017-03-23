@@ -239,6 +239,16 @@ function! elixir#indent#handle_starts_with_close_curly_brace(lnum, text, _prev_n
   endif
 endfunction
 
+function! elixir#indent#handle_starts_with_close_paren(lnum, text, _prev_nb_lnum, _prev_nb_text)
+  if elixir#indent#starts_with(a:text, ')', a:lnum)
+    call elixir#indent#debug("starts with )")
+    let pair_lnum = elixir#indent#searchpair_back('(', '', ')\zs')
+    return indent(pair_lnum)
+  else
+    return -1
+  endif
+endfunction
+
 function! elixir#indent#handle_starts_with_binary_operator(lnum, text, prev_nb_lnum, prev_nb_text)
   let binary_operator = '\%(=\|<>\|>>>\|<=\|||\|+\|\~\~\~\|-\|&&\|<<<\|/\|\^\^\^\|\*\)'
 
@@ -398,14 +408,17 @@ function! elixir#indent#handle_inside_parens(_lnum, _text, prev_nb_lnum, prev_nb
   let pair_lnum = elixir#indent#searchpair_back('(', '', ')')
   if pair_lnum
     call elixir#indent#debug("in parens")
-    " Align indent (e.g. "def add(a,")
+    " Align indent. Ex:
+    "
+    "   def add(a,
+    "           b)
+    "
     let pos = elixir#indent#find_last_pos(a:prev_nb_lnum, a:prev_nb_text, '\w\+,')
     if pos == -1
-      return 0
+      return indent(a:prev_nb_lnum) + 2
     else
       return pos
-    end
-    return indent(pair_lnum) + 2
+    endif
   else
     return -1
   endif
