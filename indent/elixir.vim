@@ -2,6 +2,7 @@ if exists("b:did_indent")
   finish
 end
 let b:did_indent = 1
+let b:syntax_cache = {}
 
 setlocal indentexpr=elixir#indent(v:lnum)
 

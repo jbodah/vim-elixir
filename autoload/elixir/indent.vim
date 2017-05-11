@@ -1,3 +1,6 @@
+let s:string_id = hlID('String')
+let s:comment_id = hlID('Comment')
+
 function! elixir#indent#debug(str)
   if exists("g:elixir_indent_debug") && g:elixir_indent_debug
     echom a:str
@@ -44,7 +47,15 @@ endfunction
 " Returns 0 or 1 based on whether or not the given line number and column
 " number pair is a string or comment
 function! elixir#indent#is_string_or_comment(line, col)
-  return synIDattr(synID(a:line, a:col, 1), "name") =~ '\%(String\|Comment\)'
+  let key = ''.a:line.'_'.a:col
+  if b:syntax_cache[key] do
+    return b:syntax_cache[key]
+  else
+    let id = synID(a:line, a:col, 1)
+    let result = (id == s:string_id || id == s:comment_id)
+    b:syntax_cache[key] = result
+    return result
+  end
 endfunction
 
 " Skip expression for searchpair. Returns 0 or 1 based on whether the value
